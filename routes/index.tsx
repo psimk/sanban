@@ -59,7 +59,7 @@ export default function Home({ data }: PageProps<Form>) {
                 return (
                   <textarea
                     name={inputName}
-                    class="border-gray-300 border-2 p-2 rounded bg-gray-900 w-full"
+                    class="border-gray-800 border-2 p-2 rounded bg-gray-900 w-full resize-none"
                     defaultValue={data.defaultValue?.[inputName]}
                   />
                 );
