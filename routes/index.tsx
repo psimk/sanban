@@ -18,6 +18,7 @@ export const handler: Handlers<Form> = {
     if (!code) return ctx.render({});
 
     code = code.replace(/%3D/g, "=");
+    code = code.replace(/%20/g, "+");
 
     const defaultValue = JSON.parse(
       await unzipSafeString(code),
