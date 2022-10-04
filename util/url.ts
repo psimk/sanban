@@ -1,9 +1,6 @@
-export function updateParam(param: string, value: string) {
+export function updatePath(value: string) {
   const url = new URL(document.URL);
 
-  window.history.replaceState(
-    {},
-    document.title,
-    `${url.origin}${url.pathname}?${param}=${value}`,
-  );
+  url.pathname = url.pathname.replace(/[^\/]+$/g, value);
+  window.history.replaceState({}, document.title, url);
 }

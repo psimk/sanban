@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { updateParam } from "../util/url.ts";
+import { updatePath } from "../util/url.ts";
 import { zipSafeString } from "../util/zip.ts";
 
 type Props = {
@@ -51,7 +51,7 @@ export default function FormEncoder({ formName }: Props) {
 
     const zippedForm = await zipSafeString(stringifiedForm);
 
-    updateParam('code', zippedForm)
+    updatePath(zippedForm)
   }, [form]);
 
   useEffect(() => {

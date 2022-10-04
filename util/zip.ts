@@ -59,14 +59,14 @@ export async function zipSafeString(
     (value) => buffers.push(value),
   );
 
-  return encode(concat(...buffers));
+  return encode(concat(...buffers)).replaceAll('/', '-')
 }
 
 export async function unzipSafeString(string: string) {
   let result = "";
 
   await exhaust(
-    new ReadableStream(new SingleStreamSource(decode(string)))
+    new ReadableStream(new SingleStreamSource(decode(string.replaceAll('-', '/'))))
       .pipeThrough(new DecompressionStream("gzip"))
       .pipeThrough(new TextDecoderStream())
       .getReader(),
