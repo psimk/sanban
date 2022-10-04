@@ -1,12 +1,15 @@
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
+import { updateParam } from "../util/url.ts";
 import { zipSafeString } from "../util/zip.ts";
 
 type Props = {
   formName: string;
 };
 
+type Nullable<T> = null | T;
+
 function useFormElement(name: string) {
-  const [form, setForm] = useState<HTMLFormElement | null>(null);
+  const [form, setForm] = useState<Nullable<HTMLFormElement>>(null);
 
   useEffect(() => {
     const elements = document.getElementsByName(name);
@@ -16,34 +19,49 @@ function useFormElement(name: string) {
   return form;
 }
 
+function useChildrenAdded(
+  element: Nullable<HTMLElement>,
+  onChildrenAdded: () => void,
+) {
+  const [observer, setObsever] = useState<Nullable<MutationObserver>>(null);
+
+  useEffect(() => {
+    setObsever(new MutationObserver(onChildrenAdded));
+  }, [onChildrenAdded]);
+
+  useEffect(() => {
+    if (!element || !observer) return;
+
+    observer.observe(element, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [element, observer]);
+
+  return;
+}
+
 export default function FormEncoder({ formName }: Props) {
   const form = useFormElement(formName);
+
+  const handleChange = useCallback(async () => {
+    if(!form) return
+
+    const formAsObject = Object.fromEntries(new FormData(form));
+
+    const stringifiedForm = JSON.stringify(formAsObject);
+
+    const zippedForm = await zipSafeString(stringifiedForm);
+
+    updateParam('code', zippedForm)
+  }, [form]);
 
   useEffect(() => {
     if (!form) return;
 
-    const changeHandler = async () => {
-      const formAsObject = Object.fromEntries(new FormData(form));
+    form.addEventListener("change", handleChange);
+    return () => form.removeEventListener("change", handleChange);
+  }, [form, handleChange]);
 
-      console.log(formAsObject);
-      const stringifiedForm = JSON.stringify(formAsObject);
-
-      let start = performance.now();
-      const zippedForm = await zipSafeString(stringifiedForm);
-      console.log(performance.now() - start);
-
-      const url = new URL(document.URL);
-
-      window.history.replaceState(
-        {},
-        document.title,
-        `${url.origin}${url.pathname}?code=${zippedForm}`,
-      );
-    };
-
-    form.addEventListener("change", changeHandler);
-    return () => form.removeEventListener("change", changeHandler);
-  }, [form]);
+  useChildrenAdded(form, handleChange)
 
   return <div />;
 }

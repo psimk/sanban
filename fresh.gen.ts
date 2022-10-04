@@ -3,19 +3,25 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/index.tsx";
-import * as $$0 from "./islands/EditableLegend.tsx";
-import * as $$1 from "./islands/FormEncoder.tsx";
-import * as $$2 from "./islands/ShareButton.tsx";
+import * as $0 from "./routes/board/[code].tsx";
+import * as $1 from "./routes/board/index.ts";
+import * as $2 from "./routes/index.tsx";
+import * as $$0 from "./islands/ClientCards.tsx";
+import * as $$1 from "./islands/EditableLegend.tsx";
+import * as $$2 from "./islands/FormEncoder.tsx";
+import * as $$3 from "./islands/ShareButton.tsx";
 
 const manifest = {
   routes: {
-    "./routes/index.tsx": $0,
+    "./routes/board/[code].tsx": $0,
+    "./routes/board/index.ts": $1,
+    "./routes/index.tsx": $2,
   },
   islands: {
-    "./islands/EditableLegend.tsx": $$0,
-    "./islands/FormEncoder.tsx": $$1,
-    "./islands/ShareButton.tsx": $$2,
+    "./islands/ClientCards.tsx": $$0,
+    "./islands/EditableLegend.tsx": $$1,
+    "./islands/FormEncoder.tsx": $$2,
+    "./islands/ShareButton.tsx": $$3,
   },
   baseUrl: import.meta.url,
   config,
