@@ -34,12 +34,14 @@ export default function Board({ data: { initialCards } }: PageProps<Form>) {
         <ShareButton />
       </header>
       <FormEncoder formName={BOARD_NAME} />
-      <form
-        name={BOARD_NAME}
-        class="flex gap-4 md:gap-6 p-4 sm:px-12 h-full w-full"
-      >
-        <ClientCards initial={initialCards} />
-      </form>
+      <main class="p-4 sm:px-12">
+        <form
+          name={BOARD_NAME}
+          class="flex gap-4 md:gap-6 h-full w-full"
+        >
+          <ClientCards initial={initialCards} />
+        </form>
+      </main>
     </div>
   );
 }

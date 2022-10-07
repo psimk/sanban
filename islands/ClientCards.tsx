@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "preact/hooks";
+import Card from "../components/Card.tsx";
 import Icon from "../components/Icon.tsx";
 import { Cards } from "../util/cards.ts";
-import EditableLegend from "./EditableLegend.tsx";
 
 type Props = {
   initial?: Cards;
@@ -93,60 +93,19 @@ export default function ClientCards({ initial }: Props) {
 
   return (
     <div class="contents">
-      {cards.map(({ id, title, inputs }) => {
-        return (
-          <fieldset
-            key={id}
-            name={String(id)}
-            class="flex flex-col sm:min-w-[300px] max-w-[300px] min-w-full grow snap-center"
-          >
-            <div class="flex justify-between gap-4 py-2 sticky top-16 bg-gray-900">
-              <EditableLegend name={`${id}-legend`}>{title}</EditableLegend>
-              <button
-                type="button"
-                class="pr-2.5"
-                title="Delete Card"
-                onClick={() => deleteCard(id)}
-              >
-                <Icon.Trash />
-              </button>
-            </div>
-
-            <div class="border-red-300 border-2 flex flex-col gap-4 p-2 rounded-md">
-              {inputs.map(({ id: inputId, value }) => (
-                <div key={inputId} class="flex flex-col gap-2">
-                  <textarea
-                    name={`${id}-input-${inputId}`}
-                    class="p-2 rounded bg-gray-700 w-full max-h-content resize-none outline-red-300"
-                    value={value}
-                  />
-                  <button
-                    type="button"
-                    class="ml-auto flex gap-2  text-gray-600"
-                    title="Delete Input"
-                    onClick={() =>
-                      deleteInput(id, inputId)}
-                  >
-                    <Icon.Trash />
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                class="p-4 text-gray-600"
-                title="Add Input"
-                onClick={() => appendInput(id)}
-              >
-                <Icon.Plus class="mx-auto" />
-              </button>
-            </div>
-          </fieldset>
-        );
-      })}
+      {cards.map((card) => (
+        <Card
+          key={card.id}
+          {...card}
+          onDelete={() => deleteCard(card.id)}
+          onAddInput={() => appendInput(card.id)}
+          onDeleteInput={(inputId) => deleteInput(card.id, inputId)}
+        />
+      ))}
       <button
         type="button"
         title="Add Card"
-        class="border-gray-600 text-gray-600 border-2 p-4 mt-10 rounded-md sm:min-w-[300px] max-w-[300px] min-w-full grow snap-center"
+        class="border-gray-600 text-gray-600 border-2 p-4 mt-10 rounded-md sm:min-w-[300px] max-w-[300px] min-w-full grow snap-end"
         onClick={appendCard}
       >
         <Icon.Plus class="mx-auto" />

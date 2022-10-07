@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default function EditableLegend({ name, children }: Props) {
-  const [focused, setFocused] = useState(true);
+  const [focused, setFocused] = useState(false);
   const [text, setText] = useState<string>(() =>
     children && stringify(children) || ""
   );
