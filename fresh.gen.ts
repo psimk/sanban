@@ -3,9 +3,10 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/board/[code].tsx";
-import * as $1 from "./routes/board/index.ts";
-import * as $2 from "./routes/index.tsx";
+import * as $0 from "./routes/_app.tsx";
+import * as $1 from "./routes/board/[code].tsx";
+import * as $2 from "./routes/board/index.ts";
+import * as $3 from "./routes/index.tsx";
 import * as $$0 from "./islands/ClientCards.tsx";
 import * as $$1 from "./islands/EditableLegend.tsx";
 import * as $$2 from "./islands/FormEncoder.tsx";
@@ -13,9 +14,10 @@ import * as $$3 from "./islands/ShareButton.tsx";
 
 const manifest = {
   routes: {
-    "./routes/board/[code].tsx": $0,
-    "./routes/board/index.ts": $1,
-    "./routes/index.tsx": $2,
+    "./routes/_app.tsx": $0,
+    "./routes/board/[code].tsx": $1,
+    "./routes/board/index.ts": $2,
+    "./routes/index.tsx": $3,
   },
   islands: {
     "./islands/ClientCards.tsx": $$0,

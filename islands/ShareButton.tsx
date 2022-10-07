@@ -1,9 +1,12 @@
+import Icon from "../components/Icon.tsx";
+
 export default function ShareButton() {
   const supportsShareAPI = "share" in navigator;
   return (
     <button
       type="button"
-      class="border-black border-2 p-2 rounded bg-blue-300"
+      title={supportsShareAPI ? "Share" : "Copy URL"}
+      class="border-grey-300 text-gray-300 border-2 p-2 rounded"
       onClick={async () => {
         if (supportsShareAPI) {
           await navigator.share(
@@ -23,9 +26,11 @@ export default function ShareButton() {
             [urlBlob.type]: urlBlob,
           }),
         ]);
+
+        alert('The URL has been copied to your clipboard')
       }}
     >
-      {supportsShareAPI ? "Share" : "Share (copy url)"}
+      {supportsShareAPI ? <Icon.Share /> : <Icon.Copy />}
     </button>
   );
 }

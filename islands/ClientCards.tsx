@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "preact/hooks";
+import Icon from "../components/Icon.tsx";
 import { Cards } from "../util/cards.ts";
 import EditableLegend from "./EditableLegend.tsx";
 
@@ -21,7 +22,7 @@ function useCardState(initial: Cards = []) {
         const id = lastIdRef.current + 1;
         lastIdRef.current = id;
 
-        return [...c, { id, title: "[Placeholder]", inputs: [] }];
+        return [...c, { id, title: "New Card", inputs: [] }];
       }),
     [],
   );
@@ -97,51 +98,58 @@ export default function ClientCards({ initial }: Props) {
           <fieldset
             key={id}
             name={String(id)}
-            class="border-red-300 border-2 grid auto-rows-min gap-2 p-4 rounded h-full relative"
+            class="flex flex-col sm:min-w-[300px] max-w-[300px] min-w-full grow snap-center"
           >
-            <EditableLegend name={`${id}-legend`}>{title}</EditableLegend>
-            <button
-              type="button"
-              class="absolute top-0 right-0"
-              onClick={() => deleteCard(id)}
-            >
-              X
-            </button>
+            <div class="flex justify-between gap-4 py-2 sticky top-16 bg-gray-900">
+              <EditableLegend name={`${id}-legend`}>{title}</EditableLegend>
+              <button
+                type="button"
+                class="pr-2.5"
+                title="Delete Card"
+                onClick={() => deleteCard(id)}
+              >
+                <Icon.Trash />
+              </button>
+            </div>
 
-            {inputs.map(({ id: inputId, value }) => (
-              <div key={inputId} class="flex gap-2">
-                <textarea
-                  name={`${id}-input-${inputId}`}
-                  class="border-gray-800 border-2 p-2 rounded bg-gray-900 w-full resize-none"
-                  value={value}
-                />
-
-                <button
-                  type="button"
-                  class="border-2 p-2 rounded"
-                  onClick={() =>
-                    deleteInput(id, inputId)}
-                >
-                  -
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              class="border-2 p-4 rounded"
-              onClick={() => appendInput(id)}
-            >
-              add input
-            </button>
+            <div class="border-red-300 border-2 flex flex-col gap-4 p-2 rounded-md">
+              {inputs.map(({ id: inputId, value }) => (
+                <div key={inputId} class="flex flex-col gap-2">
+                  <textarea
+                    name={`${id}-input-${inputId}`}
+                    class="p-2 rounded bg-gray-700 w-full max-h-content resize-none outline-red-300"
+                    value={value}
+                  />
+                  <button
+                    type="button"
+                    class="ml-auto flex gap-2  text-gray-600"
+                    title="Delete Input"
+                    onClick={() =>
+                      deleteInput(id, inputId)}
+                  >
+                    <Icon.Trash />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                class="p-4 text-gray-600"
+                title="Add Input"
+                onClick={() => appendInput(id)}
+              >
+                <Icon.Plus class="mx-auto" />
+              </button>
+            </div>
           </fieldset>
         );
       })}
       <button
         type="button"
-        class="border-red-300 border-2 p-4 rounded h-full"
+        title="Add Card"
+        class="border-gray-600 text-gray-600 border-2 p-4 mt-10 rounded-md sm:min-w-[300px] max-w-[300px] min-w-full grow snap-center"
         onClick={appendCard}
       >
-        +
+        <Icon.Plus class="mx-auto" />
       </button>
     </div>
   );

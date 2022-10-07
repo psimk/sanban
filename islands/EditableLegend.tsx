@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default function EditableLegend({ name, children }: Props) {
-  const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState(true);
   const [text, setText] = useState<string>(() =>
     children && stringify(children) || ""
   );
@@ -27,17 +27,22 @@ export default function EditableLegend({ name, children }: Props) {
   const ref = useRef<HTMLInputElement>(null);
 
   useLayoutEffect(() => {
-    if (focused) ref.current?.focus();
+    if (focused) {
+      ref.current?.focus();
+      ref.current?.select();
+    }
   }, [focused]);
 
   return (
     <legend
-      onClick={() => setFocused(true)}
+      class="text-lg pl-0.5 w-full"
+      tabIndex={0}
+      onFocus={() => setFocused(true)}
     >
       <input
         ref={ref}
         type="text"
-        class="bg-gray-900"
+        class="bg-gray-900 outline-red-300 w-full"
         hidden={!focused}
         name={name}
         value={text || undefined}
