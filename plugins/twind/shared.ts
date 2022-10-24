@@ -1,6 +1,6 @@
 import { JSX, options as preactOptions, VNode } from "preact";
 
-import { Preset, setup as twSetup, Sheet, tw, TwindUserConfig } from "twind";
+import { getSheet, Preset, setup as twSetup, Sheet, tw, TwindUserConfig } from "twind";
 import presetTailwind from "@twind/preset-tailwind";
 
 export const STYLE_ELEMENT_ID = "__FRSH_TWIND";
@@ -19,7 +19,7 @@ declare module "preact" {
   }
 }
 
-export function setup(options: Options, sheet: Sheet) {
+export function setup(options: Options, sheet: Sheet = getSheet()) {
   const instance = twSetup({
     ...options,
     presets: [presetTailwind as Preset],
