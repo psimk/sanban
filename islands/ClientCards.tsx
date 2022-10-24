@@ -22,7 +22,7 @@ function useCardState(initial: Cards = []) {
         const id = lastIdRef.current + 1;
         lastIdRef.current = id;
 
-        return [...c, { id, title: "New Card", inputs: [] }];
+        return [...c, { id, title: "New Card", inputs: [{ id: 0 }] }];
       }),
     [],
   );
