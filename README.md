@@ -1,12 +1,19 @@
-# fresh project
+# Sanban
 
-### Usage
+A Kanban-like board with persistent (in URL) boards.
 
-Start the project:
+[![Made with Fresh](https://fresh.deno.dev/fresh-badge-dark.svg)](https://fresh.deno.dev)
 
-```
+## Usage
+
+> development
+
+```bash
 deno task start
 ```
 
-This will watch the project directory and restart as necessary.
-# sanban
+> production
+
+```bash
+deno run -A --unstable ./main.ts
+```
