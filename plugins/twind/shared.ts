@@ -1,7 +1,6 @@
 import { JSX, options as preactOptions, VNode } from "preact";
-// import { Configuration, setup as twSetup, Sheet, tw } from "twind";
 
-import { setup as twSetup, Sheet, tw, TwindUserConfig } from "twind";
+import { Preset, setup as twSetup, Sheet, tw, TwindUserConfig } from "twind";
 import presetTailwind from "@twind/preset-tailwind";
 
 export const STYLE_ELEMENT_ID = "__FRSH_TWIND";
@@ -20,12 +19,11 @@ declare module "preact" {
   }
 }
 
-export function setup(options: Options) {
-  // @ts-ignore
+export function setup(options: Options, sheet: Sheet) {
   const instance = twSetup({
     ...options,
-    presets: [presetTailwind],
-  });
+    presets: [presetTailwind as Preset],
+  }, sheet);
 
   const originalHook = preactOptions.vnode;
   // deno-lint-ignore no-explicit-any

@@ -1,4 +1,4 @@
-import { stringify } from "twind";
+import { stringify, getSheet } from "twind";
 // import {virtualSheet as oldVirtualSheet} from "twind/sheets";
 import { Plugin } from "$fresh/server.ts";
 
@@ -6,8 +6,7 @@ import { Options, setup, STYLE_ELEMENT_ID } from "./twind/shared.ts";
 export type { Options };
 
 export default function twind(options: Options): Plugin {
-  // const sheet = virtualSheet();
-  const instance = setup(options);
+  const instance = setup(options, getSheet());
   const main = `data:application/javascript,import hydrate from "${
     new URL("./twind/main.ts", import.meta.url).href
   }";
