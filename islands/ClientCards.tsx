@@ -56,7 +56,7 @@ function useCardState(initial: Cards = []) {
         const updated = Array.from(c);
         updated.splice(cardIndex, 1, {
           ...card,
-          inputs: [...inputs, { id: inputId }],
+          inputs: [{ id: inputId }, ...inputs],
         });
 
         return updated;
@@ -88,15 +88,17 @@ function useCardState(initial: Cards = []) {
 }
 
 export default function ClientCards({ initial }: Props) {
+  const lastCardRef = useRef<HTMLFieldSetElement>(null);
   const [cards, { appendCard, deleteCard, appendInput, deleteInput }] =
     useCardState(initial);
 
   return (
     <div class="contents">
-      {cards.map((card) => (
+      {cards.map((card, index) => (
         <Card
           key={card.id}
           {...card}
+          ref={cards.length - 1 === index ? lastCardRef : undefined}
           onDelete={() => deleteCard(card.id)}
           onAddInput={() => appendInput(card.id)}
           onDeleteInput={(inputId) => deleteInput(card.id, inputId)}
@@ -105,8 +107,17 @@ export default function ClientCards({ initial }: Props) {
       <button
         type="button"
         title="Add Card"
-        class="border-gray-600 text-gray-600 border-2 p-4 mt-10 rounded-md sm:min-w-[300px] max-w-[300px] min-w-full grow snap-end"
-        onClick={appendCard}
+        class="shadow-inner shadow-gray-600 border-gray-600 text-gray-600 border-2 p-4 mt-11 rounded-md sm:min-w-[300px] max-w-[300px] min-w-full grow snap-end"
+        onClick={() => {
+          appendCard();
+
+          requestAnimationFrame(() => {
+            lastCardRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "end",
+            });
+          });
+        }}
       >
         <Icon.Plus class="mx-auto" />
       </button>

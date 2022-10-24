@@ -42,7 +42,7 @@ export default function EditableLegend({ name, children }: Props) {
       <input
         ref={ref}
         type="text"
-        class="bg-gray-900 outline-red-300 w-full"
+        class="bg-gray-900 outline-gray-300 w-full"
         hidden={!focused}
         name={name}
         value={text || undefined}

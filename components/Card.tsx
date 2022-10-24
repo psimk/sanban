@@ -1,6 +1,9 @@
 import Icon from "../components/Icon.tsx";
 import { Card as CardStruct } from "../util/cards.ts";
 import EditableLegend from "../islands/EditableLegend.tsx";
+import { useRef } from "preact/hooks";
+import { forwardRef } from "preact/compat";
+import { Ref } from "preact";
 
 type Props = CardStruct & {
   onDelete: () => void;
@@ -8,11 +11,17 @@ type Props = CardStruct & {
   onAddInput: () => void;
 };
 
-export default function Card(
+export default forwardRef(function Card(
   { id, title, inputs, onDelete, onDeleteInput, onAddInput }: Props,
+  ref: Ref<HTMLFieldSetElement>,
 ) {
+  const firstTextAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  console.log(ref, id);
+
   return (
     <fieldset
+      ref={ref}
       key={id}
       name={String(id)}
       class="flex flex-col sm:min-w-[300px] max-w-[300px] min-w-full snap-center"
@@ -29,12 +38,13 @@ export default function Card(
         </button>
       </div>
 
-      <div class="border-red-300 border-2 flex flex-col gap-4 p-2 rounded-md overflow-y-scroll overflow-x-hidden">
+      <div class="border-gray-800 border-2 flex flex-col gap-4 p-2 rounded-md overflow-y-auto overflow-x-hidden shadow-inner shadow-gray-600">
         {inputs.map(({ id: inputId, value }) => (
           <div key={inputId} class="flex flex-col gap-2">
             <textarea
+              ref={firstTextAreaRef}
               name={`${id}-input-${inputId}`}
-              class="p-2 rounded bg-gray-700 w-full max-h-content resize-none outline-red-300"
+              class="p-2 rounded bg-gray-700 w-full min-h-[85px] max-h-content resize-y outline-gray-300 transition-all"
               value={value}
             />
             <button
@@ -50,13 +60,21 @@ export default function Card(
         ))}
         <button
           type="button"
-          class="p-4 text-gray-600"
+          class="p-4 text-gray-600 sticky bottom-0 rounded min-h-[85px] bg-gray-900 shadow-inner shadow-gray-600"
           title="Add Input"
-          onClick={onAddInput}
+          onClick={() => {
+            onAddInput();
+            requestAnimationFrame(() => {
+              firstTextAreaRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+              });
+            });
+          }}
         >
           <Icon.Plus class="mx-auto" />
         </button>
       </div>
     </fieldset>
   );
-}
+});
