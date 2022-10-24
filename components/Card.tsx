@@ -15,9 +15,9 @@ export default function Card(
     <fieldset
       key={id}
       name={String(id)}
-      class="flex flex-col sm:min-w-[300px] max-w-[300px] min-w-full grow snap-center"
+      class="flex flex-col sm:min-w-[300px] max-w-[300px] min-w-full snap-center"
     >
-      <div class="flex justify-between gap-4 py-2 sticky top-16 bg-gray-900">
+      <div class="flex justify-between gap-4 py-2 bg-gray-900">
         <EditableLegend name={`${id}-legend`}>{title}</EditableLegend>
         <button
           type="button"
@@ -29,7 +29,7 @@ export default function Card(
         </button>
       </div>
 
-      <div class="border-red-300 border-2 flex flex-col gap-4 p-2 rounded-md">
+      <div class="border-red-300 border-2 flex flex-col gap-4 p-2 rounded-md overflow-y-scroll overflow-x-hidden">
         {inputs.map(({ id: inputId, value }) => (
           <div key={inputId} class="flex flex-col gap-2">
             <textarea

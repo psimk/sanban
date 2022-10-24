@@ -63,5 +63,5 @@ export default function FormEncoder({ formName }: Props) {
 
   useChildrenAdded(form, handleChange)
 
-  return <div />;
+  return <div class="contents" />;
 }

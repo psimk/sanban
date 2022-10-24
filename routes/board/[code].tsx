@@ -29,15 +29,15 @@ export const handler: Handlers<Form> = {
 
 export default function Board({ data: { initialCards } }: PageProps<Form>) {
   return (
-    <div class="flex flex-col h-full snap-mandatory snap-x overflow-x-auto">
-      <header class="sticky w-full top-0 left-0 flex justify-end bg-gray-900 p-4 sm:px-12">
+    <div class="h-full flex flex-col snap-mandatory snap-x overflow-x-auto overflow-y-hidden">
+      <FormEncoder formName={BOARD_NAME} />
+      <header class="w-full flex justify-end bg-gray-900 p-4 sticky top-0 right-0 sm:px-12">
         <ShareButton />
       </header>
-      <FormEncoder formName={BOARD_NAME} />
-      <main class="p-4 sm:px-12">
+      <main class="p-4 sm:px-12 grow overflow-y-hidden">
         <form
           name={BOARD_NAME}
-          class="flex gap-4 md:gap-6 h-full w-full"
+          class="flex gap-4 md:gap-6 w-full max-h-full"
         >
           <ClientCards initial={initialCards} />
         </form>
